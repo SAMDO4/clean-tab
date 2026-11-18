@@ -1,0 +1,13 @@
+/* Velvet Tab — 작은 화면 대응 (요소 위치는 정규화 좌표로 자동 유지) */
+@media (max-width: 720px) {
+  .vt-editbar-text { display: none; }
+  .vt-favorites { max-width: 94vw; }
+}
+
+@media (max-height: 520px) {
+  .vt-settings-btn { right: 10px; bottom: 10px; }
+}
+
+@media (max-width: 480px) {
+  .vt-panel { width: calc(100vw - 16px) !important; right: 8px !important; }
+}

@@ -1,0 +1,318 @@
+/* Velvet Tab — 화면 요소 */
+
+/* ---------- 이동 가능한 요소 공통 ---------- */
+.vt-el {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: calc(100vw - 16px);
+  pointer-events: auto;
+  will-change: transform;
+}
+
+/* ---------- 시계 ---------- */
+.vt-clock {
+  display: flex;
+  align-items: baseline;
+  gap: .12em;
+  line-height: 1;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.vt-clock-period { font-size: .26em; font-weight: 500; letter-spacing: 0; margin-right: .2em; opacity: .85; }
+.vt-clock-sec { font-size: .42em; opacity: .75; }
+
+/* ---------- 날짜 ---------- */
+.vt-date { line-height: 1.3; white-space: nowrap; letter-spacing: .01em; }
+.vt-clock[data-align="left"], .vt-date[data-align="left"] { text-align: left; }
+.vt-clock[data-align="right"], .vt-date[data-align="right"] { text-align: right; }
+.vt-date[data-align="center"] { text-align: center; }
+
+/* ---------- 자체 즐겨찾기 ---------- */
+.vt-favorites {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--vt-fav-gap, 16px);
+  max-width: min(92vw, 980px);
+}
+.vt-fav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: calc(var(--vt-fav-size, 44px) + 26px);
+  color: inherit;
+  text-decoration: none;
+  border-radius: calc(var(--vt-fav-radius, 14px) + 4px);
+  outline-offset: 3px;
+}
+.vt-favorites[data-mode="icon"] .vt-fav { width: auto; }
+.vt-favorites[data-mode="icon"] .vt-fav-label { display: none; }
+.vt-fav-icon {
+  display: grid;
+  place-items: center;
+  width: var(--vt-fav-size, 44px);
+  height: var(--vt-fav-size, 44px);
+  border-radius: var(--vt-fav-radius, 14px);
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .14);
+  overflow: hidden;
+  text-shadow: none;
+  transition: transform 160ms var(--vt-ease), box-shadow 160ms ease;
+}
+.vt-fav-icon img { width: 58%; height: 58%; object-fit: contain; }
+.vt-fav-icon.is-letter {
+  background: var(--vt-fav-tint, #5b6b8c);
+  color: #fff;
+  font-weight: 600;
+  font-size: calc(var(--vt-fav-size, 44px) * .42);
+}
+.vt-fav-icon.is-emoji { font-size: calc(var(--vt-fav-size, 44px) * .5); }
+.vt-fav-icon:has(img[src^="data:"]) img { width: 100%; height: 100%; object-fit: cover; }
+.vt-fav-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.25;
+}
+.vt-favorites:not(.no-hover) .vt-fav:hover .vt-fav-icon,
+.vt-favorites:not(.no-hover) .vt-fav:focus-visible .vt-fav-icon {
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .24);
+}
+.vt-fav:focus-visible { outline: 2px solid rgba(255, 255, 255, .85); }
+.vt-fav-empty {
+  border: 1px dashed rgba(255, 255, 255, .4);
+  background: transparent;
+  border-radius: 12px;
+  padding: 8px 14px;
+  color: inherit;
+  cursor: pointer;
+  opacity: .8;
+}
+.vt-fav-empty:hover { opacity: 1; background: rgba(255, 255, 255, .08); }
+
+/* ---------- 북마크바 (Chrome 북마크바와 유사한 낮고 간결한 가로 막대) ---------- */
+.vt-bookmarks.vt-glass {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  height: var(--vt-bm-height, 34px);
+  padding: 0 var(--vt-pad, 6px);
+  border-width: 0 0 1px;
+  border-radius: 0 0 var(--vt-radius, 0) var(--vt-radius, 0);
+  font-size: var(--vt-font-size, 12px);
+  line-height: 1;
+  pointer-events: auto;
+}
+.vt-bm-items {
+  display: flex;
+  align-items: center;
+  gap: var(--vt-bm-gap, 2px);
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.vt-bm-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  max-width: 180px;
+  height: calc(var(--vt-bm-height, 34px) - 8px);
+  padding: 0 7px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.vt-bm-item:hover,
+.vt-bm-item:focus-visible,
+.vt-bm-item.is-open { background: rgba(255, 255, 255, var(--vt-bm-hover, .16)); }
+.vt-bm-item:focus-visible { outline: 2px solid rgba(255, 255, 255, .7); outline-offset: -2px; }
+.vt-bm-item.is-overflow { display: none; }
+.vt-bm-item.is-disabled { opacity: .5; cursor: not-allowed; }
+.vt-bm-label { overflow: hidden; text-overflow: ellipsis; }
+.vt-bm-icon { width: var(--vt-bm-icon, 16px); height: var(--vt-bm-icon, 16px); flex: 0 0 auto; object-fit: contain; }
+svg.vt-bm-icon { opacity: .9; }
+.vt-bookmarks[data-mode="icon"] .vt-bm-link,
+.vt-bookmarks[data-mode="icon"] .vt-bm-folder:not(:has(.vt-bm-label)) { padding: 0 6px; }
+.vt-bm-chevron { margin-left: 2px; padding: 0 5px; }
+.vt-bm-other { margin-left: auto; padding-left: 9px; position: relative; }
+.vt-bm-other::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background: currentColor;
+  opacity: .25;
+}
+.vt-bm-empty { opacity: .65; padding: 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 폴더/오버플로 메뉴 */
+.vt-menu {
+  position: fixed;
+  z-index: 60;
+  min-width: 220px;
+  max-width: 340px;
+  overflow-y: auto;
+  padding: 5px;
+  border-radius: 10px;
+  background: rgba(32, 33, 38, .92);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, .1);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .38);
+  color: #f2f3f5;
+  font-size: 13px;
+  animation: vt-pop 110ms var(--vt-ease);
+}
+@keyframes vt-pop { from { opacity: 0; transform: translateY(-3px); } }
+.vt-menu .vt-bm-item {
+  display: flex;
+  width: 100%;
+  max-width: none;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.vt-menu .vt-bm-item:hover,
+.vt-menu .vt-bm-item:focus-visible,
+.vt-menu .vt-bm-item.is-open { background: rgba(255, 255, 255, .1); outline: none; }
+.vt-menu .vt-bm-icon { width: 16px; height: 16px; }
+.vt-menu .vt-bm-label { flex: 1 1 auto; text-align: left; }
+.vt-bm-sub { width: 14px; height: 14px; opacity: .6; flex: 0 0 auto; }
+.vt-menu-empty { padding: 7px 10px; opacity: .55; }
+
+/* ---------- 설정 버튼 ---------- */
+.vt-settings-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 50%;
+  background: rgba(24, 25, 30, .42);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 220ms ease, transform 220ms var(--vt-ease), background-color 160ms ease;
+}
+.vt-settings-btn:hover { background: rgba(24, 25, 30, .66); transform: rotate(30deg); }
+.vt-settings-btn:focus-visible { outline: 2px solid rgba(255, 255, 255, .85); outline-offset: 2px; }
+body.vt-btn-autohide .vt-settings-btn { opacity: 0; }
+body.vt-btn-autohide.vt-pointer .vt-settings-btn { opacity: .7; }
+body.vt-btn-autohide .vt-settings-btn:hover,
+body.vt-btn-autohide .vt-settings-btn:focus-visible,
+body.vt-panel-open .vt-settings-btn { opacity: 1; }
+
+/* ---------- 편집 모드 ---------- */
+body.vt-editing .vt-movable {
+  cursor: grab;
+  outline: 1.5px dashed rgba(255, 255, 255, .7);
+  outline-offset: 4px;
+  touch-action: none;
+}
+body.vt-editing .vt-movable::after {
+  content: attr(data-label);
+  position: absolute;
+  left: -4px;
+  top: -26px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(20, 22, 28, .78);
+  color: #fff;
+  font: 500 11px/1.5 var(--vt-font);
+  letter-spacing: 0;
+  text-shadow: none;
+  white-space: nowrap;
+  pointer-events: none;
+}
+body.vt-editing .vt-movable * { pointer-events: none; }
+body.vt-editing .vt-movable.is-overlap { outline-color: #ffb86b; }
+body.vt-editing .vt-movable.is-overlap::after { background: rgba(160, 90, 20, .9); content: attr(data-label) " · 겹침"; }
+.vt-movable.is-dragging {
+  cursor: grabbing !important;
+  outline-color: var(--vt-accent) !important;
+  outline-style: solid !important;
+  z-index: 5;
+  will-change: transform;
+}
+
+.vt-guide {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: var(--vt-accent);
+  opacity: .8;
+  pointer-events: none;
+  z-index: 4;
+}
+.vt-guide-v { width: 1px; height: 100vh; }
+.vt-guide-h { height: 1px; width: 100vw; }
+.vt-drag-badge {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(20, 22, 28, .85);
+  color: #fff;
+  font: 500 11px/1.5 var(--vt-font);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.vt-editbar {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 7px 7px 16px;
+  border-radius: 999px;
+  background: rgba(24, 25, 30, .72);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, .14);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+  font-size: 13px;
+  white-space: nowrap;
+  animation: vt-pop 160ms var(--vt-ease);
+}
+.vt-editbar-text { opacity: .85; margin-right: 4px; }
+.vt-editbar-btn {
+  height: 30px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  cursor: pointer;
+}
+.vt-editbar-btn:hover { background: rgba(255, 255, 255, .2); }
+.vt-editbar-btn.is-primary { background: #f3f4f6; color: #111; font-weight: 600; }
+.vt-editbar-btn.is-primary:hover { background: #fff; }

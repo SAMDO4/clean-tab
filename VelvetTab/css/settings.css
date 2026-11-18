@@ -1,0 +1,283 @@
+/* Velvet Tab — 설정 사이드 패널 (필요할 때만 로드) */
+.vt-panel {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  width: 372px;
+  border-radius: 20px;
+  background: rgba(26, 27, 33, .74);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, .1);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .4);
+  color: #eef0f4;
+  font-size: 13px;
+  line-height: 1.45;
+  transform: translateX(calc(100% + 24px));
+  opacity: .4;
+  transition: transform 260ms var(--vt-ease), opacity 200ms ease;
+  user-select: none;
+}
+.vt-panel.is-open { transform: none; opacity: 1; }
+
+.vt-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 6px 18px;
+}
+.vt-panel-head h2 { margin: 0; font-size: 15px; font-weight: 650; letter-spacing: .01em; }
+
+.vt-tabs {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
+  margin: 6px 12px 4px;
+  padding: 3px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .06);
+}
+.vt-tab {
+  height: 28px;
+  padding: 0 2px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, .66);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+.vt-tab:hover { color: #fff; }
+.vt-tab[aria-selected="true"] { background: rgba(255, 255, 255, .16); color: #fff; }
+
+.vt-panel-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 8px 12px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, .2) transparent;
+}
+
+.vt-card {
+  margin: 0 0 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .06);
+}
+.vt-card-title { margin: 0 0 8px; font-size: 12px; font-weight: 650; letter-spacing: .04em; color: rgba(255, 255, 255, .62); }
+
+.vt-row {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+}
+.vt-row-label { color: rgba(255, 255, 255, .82); display: flex; align-items: center; gap: 6px; }
+.vt-row-ctl { display: flex; align-items: center; justify-content: flex-end; gap: 6px; min-width: 0; }
+.vt-mark { width: 6px; height: 6px; border-radius: 50%; background: var(--vt-accent); flex: 0 0 auto; }
+.vt-note { margin: 4px 0 8px; color: rgba(255, 255, 255, .5); font-size: 12px; }
+.vt-empty { margin: 8px 0; color: rgba(255, 255, 255, .5); }
+
+/* 스위치 */
+.vt-switch { position: relative; display: inline-flex; cursor: pointer; }
+.vt-switch input { position: absolute; inset: 0; z-index: 1; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.vt-switch-ui {
+  width: 36px; height: 20px; border-radius: 999px;
+  background: rgba(255, 255, 255, .18);
+  position: relative;
+  transition: background-color 160ms ease;
+}
+.vt-switch-ui::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+  transition: transform 160ms var(--vt-ease);
+}
+.vt-switch input:checked + .vt-switch-ui { background: #5d8cf6; }
+.vt-switch input:checked + .vt-switch-ui::after { transform: translateX(16px); }
+.vt-switch input:focus-visible + .vt-switch-ui { outline: 2px solid rgba(255, 255, 255, .8); outline-offset: 2px; }
+
+/* 슬라이더 */
+.vt-range { display: flex; align-items: center; gap: 8px; width: 100%; }
+.vt-range input { flex: 1 1 auto; min-width: 0; accent-color: #8fb4ff; height: 18px; }
+.vt-range-out { width: 46px; text-align: right; font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, .7); font-size: 12px; }
+
+.vt-select, .vt-input {
+  height: 30px;
+  min-width: 0;
+  padding: 0 9px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(0, 0, 0, .22);
+  color: #fff;
+}
+.vt-select { width: 100%; }
+.vt-select option { background: #24252b; }
+.vt-input { width: 100%; user-select: text; }
+.vt-input.is-short { width: 64px; flex: 0 0 auto; }
+.vt-input:focus, .vt-select:focus { outline: 2px solid rgba(143, 180, 255, .7); outline-offset: 0; }
+.vt-color {
+  width: 34px; height: 26px; padding: 0; border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 7px; background: none; cursor: pointer;
+}
+.vt-color::-webkit-color-swatch-wrapper { padding: 2px; }
+.vt-color::-webkit-color-swatch { border: 0; border-radius: 5px; }
+
+/* 세그먼트 */
+.vt-seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, .2);
+}
+.vt-seg button {
+  flex: 1 1 auto;
+  min-height: 26px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: rgba(255, 255, 255, .7);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.vt-seg button:hover { color: #fff; }
+.vt-seg button.is-on { background: rgba(255, 255, 255, .18); color: #fff; }
+.vt-card > .vt-seg { margin-bottom: 4px; }
+
+/* 버튼 */
+.vt-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.vt-inline { display: flex; gap: 6px; }
+.vt-btn {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+.vt-btn:hover { background: rgba(255, 255, 255, .18); }
+.vt-btn.is-primary { background: #eef0f4; color: #15161a; font-weight: 600; }
+.vt-btn.is-primary:hover { background: #fff; }
+.vt-btn.is-danger.is-armed { background: #c2413b; color: #fff; }
+.vt-btn.is-small { height: 26px; padding: 0 9px; font-size: 11.5px; }
+.vt-btn:focus-visible, .vt-icon-btn:focus-visible, .vt-seg button:focus-visible, .vt-tab:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, .8); outline-offset: 1px;
+}
+.vt-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 28px; height: 28px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, .75);
+  cursor: pointer;
+  font-size: 14px;
+}
+.vt-icon-btn:hover { background: rgba(255, 255, 255, .12); color: #fff; }
+
+.vt-status { min-height: 18px; margin: 8px 0 0; font-size: 12px; color: rgba(255, 255, 255, .6); overflow-wrap: anywhere; }
+.vt-status[data-kind="error"] { color: #fca5a5; }
+.vt-status[data-kind="ok"] { color: #86efac; }
+.vt-status[data-kind="info"] { color: rgba(255, 255, 255, .85); }
+
+/* 배치 그리드 */
+.vt-pos { display: flex; gap: 14px; align-items: center; }
+.vt-posgrid {
+  display: grid;
+  grid-template-columns: repeat(3, 26px);
+  gap: 4px;
+  padding: 6px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, .22);
+}
+.vt-posgrid button {
+  display: grid; place-items: center;
+  width: 26px; height: 18px;
+  padding: 0; border: 0; border-radius: 5px;
+  background: rgba(255, 255, 255, .08);
+  cursor: pointer;
+}
+.vt-posgrid button span { width: 8px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .35); }
+.vt-posgrid button:hover { background: rgba(255, 255, 255, .18); }
+.vt-posgrid button.is-on { background: #5d8cf6; }
+.vt-posgrid button.is-on span { background: #fff; }
+.vt-pos-status { font-weight: 500; }
+
+/* 배경 미리보기 */
+.vt-bg-preview {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, .24);
+  background: rgba(0, 0, 0, .2);
+  cursor: pointer;
+}
+.vt-bg-preview:hover, .vt-bg-preview.is-drag { border-color: rgba(255, 255, 255, .6); }
+.vt-bg-preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+.vt-bg-preview.has-image img { display: block; }
+.vt-bg-preview.has-image .vt-bg-ph { display: none; }
+.vt-bg-ph { display: flex; flex-direction: column; align-items: center; gap: 2px; color: rgba(255, 255, 255, .6); text-align: center; padding: 0 12px; }
+.vt-bg-ph small { color: rgba(255, 255, 255, .4); }
+.vt-bg-preview:focus-visible { outline: 2px solid rgba(255, 255, 255, .8); outline-offset: 2px; }
+
+/* 즐겨찾기 관리 */
+.vt-fav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.vt-fav-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, .16);
+  border: 1px solid transparent;
+}
+.vt-fav-row.is-hidden { opacity: .5; }
+.vt-fav-row.is-dragging { opacity: .35; }
+.vt-fav-row.is-target { border-color: var(--vt-accent); }
+.vt-fav-row .vt-fav-icon { --vt-fav-size: 28px; --vt-fav-radius: 8px; box-shadow: none; }
+.vt-handle { cursor: grab; color: rgba(255, 255, 255, .4); font-size: 11px; letter-spacing: -2px; padding: 0 2px; }
+.vt-fav-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.vt-fav-text strong, .vt-fav-text small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vt-fav-text strong { font-weight: 550; }
+.vt-fav-text small { color: rgba(255, 255, 255, .45); font-size: 11px; }
+.vt-fav-form { display: flex; gap: 12px; align-items: center; }
+.vt-fav-fields { flex: 1 1 auto; min-width: 0; }
+.vt-fav-fields .vt-row { grid-template-columns: 40px 1fr; }
+.vt-fav-preview .vt-fav-icon { --vt-fav-size: 44px; --vt-fav-radius: 12px; }
+
+/* 프리셋 */
+.vt-preset-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.vt-preset { padding: 9px 10px; border-radius: 11px; background: rgba(0, 0, 0, .16); border: 1px solid transparent; }
+.vt-preset.is-active { border-color: rgba(143, 180, 255, .55); }
+.vt-preset-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 7px; }
+.vt-preset-head .vt-input { flex: 1 1 auto; }
+.vt-preset-name { font-weight: 600; }
+.vt-preset-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.vt-badge { padding: 1px 7px; border-radius: 999px; background: rgba(255, 255, 255, .1); font-size: 10.5px; color: rgba(255, 255, 255, .7); }
+.vt-badge.is-accent { background: rgba(143, 180, 255, .22); color: #cfe0ff; }
+.vt-badge.is-ok { background: rgba(134, 239, 172, .16); color: #b8f5cc; }

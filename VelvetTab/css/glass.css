@@ -1,0 +1,20 @@
+/* 글래스모피즘 디자인 시스템
+   각 요소에 style-manager.js 가 CSS 변수를 주입한다.
+   --vt-bg / --vt-blur / --vt-radius / --vt-border-color / --vt-shadow / --vt-text-shadow
+   --vt-color / --vt-font-size / --vt-weight / --vt-pad / --vt-opacity */
+.vt-glass {
+  background: var(--vt-bg, rgba(255, 255, 255, .16));
+  -webkit-backdrop-filter: var(--vt-blur, blur(16px));
+  backdrop-filter: var(--vt-blur, blur(16px));
+  border: 1px solid var(--vt-border-color, rgba(255, 255, 255, .28));
+  border-radius: var(--vt-radius, 18px);
+  box-shadow: var(--vt-shadow, none);
+  color: var(--vt-color, #fff);
+  text-shadow: var(--vt-text-shadow, none);
+  font-size: var(--vt-font-size, 14px);
+  font-weight: var(--vt-weight, 500);
+  padding: var(--vt-pad, 12px);
+  opacity: var(--vt-opacity, 1);
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease,
+              border-radius 200ms ease, opacity 200ms ease, color 200ms ease;
+}

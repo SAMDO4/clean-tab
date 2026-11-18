@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Velvet Tab",
+  "version": "1.0.0",
+  "description": "배경화면·시계·날짜·즐겨찾기·북마크바를 자유롭게 꾸미는 글래스 스타일 새 탭.",
+  "permissions": ["storage", "bookmarks", "favicon"],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; img-src 'self' blob: data:; style-src 'self'; script-src 'self'; object-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'"
+  }
+}
